@@ -1,7 +1,7 @@
 {
 
-  "train_data_path": "/home/jzda/storage/ice/pretrain/features/pretrain_tiny",
-  "validation_data_path": "/home/jzda/storage/ice/pretrain/features/pretrain_tiny",
+  "train_data_path": "/home/jzda/storage/ice/pretrain/features/pretrain/train",
+  "validation_data_path": "/home/jzda/storage/ice/pretrain/features/pretrain/dev",
 
   "dataset_reader": {
     "type": "vg_reader",
@@ -44,11 +44,11 @@
 
   "iterator": {
     "type": "basic",
-    "batch_size": 1
+    "batch_size": 32
   },
 
   "trainer": {
-    "num_epochs": 15,
+    "num_epochs": 100,
     "cuda_device": 0,
     "grad_clipping": 5.0,
     "validation_metric": "+accuracy",

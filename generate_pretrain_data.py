@@ -83,16 +83,16 @@ for e, line in tqdm(enumerate(open("visual_genome_parse_v3.tsv", "r")), total=43
             if max_iou > 0.4:
                 feature_list = ast.literal_eval(data['features'])
                 phrase_dicts = []
-                for i, phrase in enumerate(ast.literal_eval(phrase_list)):
-                    datum = {}
-                    datum['region_id'] = region_id
-                    datum['image_id'] = image_id
-                    datum['box'] = max_box
-                    datum['iou'] = max_iou
-                    datum['phrase'] = phrase
-                    datum['phrase_num'] = i
-                    datum['features'] = feature_list[max_box_i]
-                    phrase_dicts.append(datum)
+                # for i, phrase in enumerate(ast.literal_eval(phrase_list)):
+                datum = {}
+                datum['region_id'] = region_id
+                datum['image_id'] = image_id
+                datum['box'] = max_box
+                datum['iou'] = max_iou
+                datum['phrase'] = sentence
+                datum['phrase_num'] = 99
+                datum['features'] = feature_list[max_box_i]
+                phrase_dicts.append(datum)
                 
                 for datum in tqdm(phrase_dicts):
                     data_list = datum
