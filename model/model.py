@@ -15,8 +15,6 @@ from allennlp.nn import util
 from allennlp.training.metrics import CategoricalAccuracy
 
 import torch.nn as nn
-import torchvision.models as models
-import torchvision.transforms as transforms
 from torch.autograd import Variable
 
 @Model.register("vg_classifier")

@@ -36,4 +36,4 @@ for line in tqdm(open(tsv_file)):
         result = '\t'.join([data[0], data[1], data[2], str(region_image_id), str(x), str(y), str(width), str(height)])
         outfile.write(result + "\n")
     except:
-        opps = 1
+        pass

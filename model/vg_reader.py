@@ -29,31 +29,37 @@ class SemanticScholarDatasetReader(DatasetReader):
     def _read(self, file_path):
         phrases = set() # save the phrases for negative sampling
 
+        CUTOFF = 0.1 * len(os.listdir(file_path))
+        count = 0
         for file in os.listdir(file_path):
             with open(os.path.join(file_path, file), "r") as data_file:
-                vg_json = json.load(data_file)
-                tokens = vg_json['phrase']
-                label = 'True' # positive examples only
-                metadata = {
-                    'box': vg_json['box'],
-                    'features': vg_json['features']
-                }
-                phrases.add(vg_json['phrase'])
-                yield self.text_to_instance(tokens, metadata, label)
+                if count < CUTOFF:
+                    count = count + 1
+                    vg_json = json.load(data_file)
+                    tokens = vg_json['phrase']
+                    label = 'True' # positive examples only
+                    metadata = {
+                        'box': vg_json['box'],
+                        'features': vg_json['features']
+                    }
+                    phrases.add(vg_json['phrase'])
+                    yield self.text_to_instance(tokens, metadata, label)
         
         # negative sampling
         for file in os.listdir(file_path):
             with open(os.path.join(file_path, file), "r") as data_file:
-                vg_json = json.load(data_file)
-                tokens = vg_json['phrase']
-                while tokens is vg_json['phrase']:
-                    tokens = random.sample(phrases, 1)[0]
-                label = 'False'
-                metadata = {
-                    'box': vg_json['box'],
-                    'features': vg_json['features']
-                }
-                yield self.text_to_instance(tokens, metadata, label)
+                if count > 0:
+                    count = count - 1
+                    vg_json = json.load(data_file)
+                    tokens = vg_json['phrase']
+                    while tokens is vg_json['phrase']:
+                        tokens = random.sample(phrases, 1)[0]
+                    label = 'False'
+                    metadata = {
+                        'box': vg_json['box'],
+                        'features': vg_json['features']
+                    }
+                    yield self.text_to_instance(tokens, metadata, label)
 
     @overrides
     def text_to_instance(self, tokens: str, metadata: Dict[str, list], label: str = None) -> Instance:  # type: ignore
