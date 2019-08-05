@@ -15,7 +15,7 @@ from allennlp.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-@DatasetReader.register("vg_reader")
+@DatasetReader.register("vg_reader_backup")
 class SemanticScholarDatasetReader(DatasetReader):
     def __init__(self,
                  lazy: bool = False,
